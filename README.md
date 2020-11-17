@@ -1,2 +1,2 @@
 # Document-Layout-Analysis
-Analyze a document by regconize and extract parts of it.
+Tools for extract figure, table, text,... from a pdf document
