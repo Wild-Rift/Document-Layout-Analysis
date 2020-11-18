@@ -38,7 +38,8 @@ from detectron2.evaluation import (
     verify_results,
 )
 from detectron2.modeling import GeneralizedRCNNWithTTA
-from .preprocess import register_publaynet_dataset
+
+from tools import register_publaynet_dataset
 
 register_publaynet_dataset()
 
