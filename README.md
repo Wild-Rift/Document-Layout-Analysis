@@ -58,7 +58,7 @@ After download and extract dataset, please put it in ```datasets``` directory. T
     │   │   ├── val.json
 
 ### Training
-Document-Layout-Analysis support training on two models: Faster-RCNN và Mask-RCNN
+Document-Layout-Analysis support training on two models: Faster-RCNN and Mask-RCNN
 
 ```
 $   CONFIG_FILE='configs/faster_rcnn_R_101_FPN_3x.yaml'      # if use Faster-RCNN model
