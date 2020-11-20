@@ -73,7 +73,7 @@ $   python train.py --num-gpus 8 --config-file CONFIG_FILE
 If you want to training on 1 GPU, you may need to [change some parameters](https://arxiv.org/abs/1706.02677), run:
 ```
 $   python train.py --num-gpus 1 \
-    --config-file ../configs/COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_1x.yaml \
+    --config-file CONFIG_FILE \
     SOLVER.IMS_PER_BATCH 2 SOLVER.BASE_LR 0.0025
 ```
 Checkpoints of model will be store in ```output/``` directory after each epoch.
