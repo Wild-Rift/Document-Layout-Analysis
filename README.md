@@ -61,8 +61,8 @@ After download and extract dataset, please put it in ```datasets``` directory. T
 Document-Layout-Analysis support training on two models: Faster-RCNN và Mask-RCNN
 
 ```
-$   CONFIG_FILE='configs/faster_rcnn_R_101_FPN_3x'      # if use Faster-RCNN model
-$   CONFIG_FILE='configs/mask_rcnn_R_101_FPN_3x'        # if use Mask-RCNN model
+$   CONFIG_FILE='configs/faster_rcnn_R_101_FPN_3x.yaml'      # if use Faster-RCNN model
+$   CONFIG_FILE='configs/mask_rcnn_R_101_FPN_3x.yaml'        # if use Mask-RCNN model
 ```
 If you want to inspect model's structures, go to ```configs/``` directory
 
