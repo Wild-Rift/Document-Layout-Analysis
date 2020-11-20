@@ -13,7 +13,7 @@ How to install CUDA 10.1 can be found here: https://developer.nvidia.com/cuda-10
 
 How to install PyTorch can be found here: https://pytorch.org/
 
-Afer installed above package, follow the instructions below to install Document-Layout-Analysis:
+Afer installed above package, follow the instructions below to install detectron2:
 ```
 $   git clone https://github.com/facebookresearch/detectron2.git
 $   git checkout 8e3effc
