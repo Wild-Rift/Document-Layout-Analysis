@@ -64,7 +64,7 @@ Document-Layout-Analysis support training on two models: Faster-RCNN and Mask-RC
 $   CONFIG_FILE='configs/faster_rcnn_R_101_FPN_3x.yaml'      # if use Faster-RCNN model
 $   CONFIG_FILE='configs/mask_rcnn_R_101_FPN_3x.yaml'        # if use Mask-RCNN model
 ```
-If you want to inspect model's structures, go to ```configs/``` directory
+If you want to inspect model's structures, go to ```configs``` directory
 
 If you want to training on 8 GPU, run:
 ```
@@ -76,4 +76,4 @@ $   python train.py --num-gpus 1 \
     --config-file CONFIG_FILE \
     SOLVER.IMS_PER_BATCH 2 SOLVER.BASE_LR 0.0025
 ```
-Checkpoints of model will be store in ```output/``` directory after each epoch.
+Checkpoints of model will be store in ```output``` directory after each epoch.
