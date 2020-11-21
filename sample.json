@@ -1,0 +1,1951 @@
+{
+    "ToC": "[[\"Bilinear Attention Networks\", 1], [\"Abstract\", 1], [\"1\", 1], [\"Introduction\", 1], [\"2\", 2], [\"Low-rank bilinear pooling\", 2], [\"3\", 3], [\"Bilinear attention networks\", 3], [\"4\", 4], [\"Related works\", 4], [\"5\", 4], [\"Experiments\", 4], [\"5.1\", 4], [\"Datasets\", 4], [\"5.2\", 4], [\"Preprocessing\", 4], [\"5.4\", 5], [\"Hyperparameters and regularization\", 5], [\"6\", 5], [\"VQA results and discussions\", 5], [\"6.1\", 5], [\"Quantitative results\", 5], [\"6.2\", 6], [\"Residual learning of attention\", 6], [\"6.3\", 7], [\"Qualitative analysis\", 7], [\"7\", 7], [\"Flickr30k entities results and discussions\", 7], [\"8\", 8], [\"Conclusions\", 8], [\"Acknowledgments\", 9], [\"References\", 9], [\"Bilinear Attention Networks \\u2014 Appendix\", 12], [\"A\", 12], [\"Variants of BAN\", 12], [\"A.1\", 12], [\"Enhancing glove word embedding\", 12], [\"A.2\", 12], [\"Integrating counting module\", 12], [\"A.3\", 13], [\"Integrating multimodal factorized bilinear (MFB) pooling\", 13]]",
+    "message": "Successfully",
+    "pages": [
+        {
+            "detected": [
+                {
+                    "bbox": [
+                        144.74916076660156,
+                        243.5945587158203,
+                        469.0704650878906,
+                        396.1150207519531
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9995766282081604,
+                    "text": "Attention networks in multimodal learning provide an efﬁcient way to utilize givendistributions for every pair of multimodal input channels is prohibitively expensive.we propose bilinear attention networks (BAN) that ﬁnd bilinear attention distri-we propose a variant of multimodal residual networks to exploit eight-attentionvisual information selectively. However, the computational cost to learn attentionTo solve this problem, co-attention builds two separate attention distributions foreach modality neglecting the interaction between multimodal inputs. In this paper,butions to utilize given vision-language information seamlessly. BAN considersbilinear interactions among two groups of input channels, while low-rank bilinearpooling extracts the joint representations for each pair of channels. Furthermore,maps of the BAN efﬁciently. We quantitatively and qualitatively evaluate ourmodel on visual question answering (VQA 2.0) and Flickr30k Entities datasets,showing that BAN signiﬁcantly outperforms previous methods and achieves newstate-of-the-arts on both datasets.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        108.76007843017578,
+                        593.3847045898438,
+                        504.0919494628906,
+                        648.1903686523438
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9993807077407837,
+                    "text": "In this paper, we extend the idea of co-attention into bilinear attention which considers every pairof multimodal channels, e.g., the pairs of question words and image regions. If the given questioninvolves multiple visual concepts represented by multiple words, the inference using visual attentiondistributions for each word can exploit relevant information better than that using single compressedattention distribution.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        107.77906036376953,
+                        511.8833923339844,
+                        504.8048400878906,
+                        588.5859375
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.999129593372345,
+                    "text": "For this reason, visual attention based models have succeeded in multimodal learning tasks, identifyingselective regions in a spatial map of an image deﬁned by the model. Also, textual attention can beconsidered along with visual attention. The attention mechanism of co-attention networks [36, 18, 20,39] concurrently infers visual and textual attention distributions for each modality. The co-attentionnetworks selectively attend to question words in addition to a part of image regions. However, the co-attention neglects the interaction between words and visual regions to avoid increasing computationalcomplexity.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        107.93113708496094,
+                        440.93170166015625,
+                        502.3581848144531,
+                        506.2307434082031
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9985727071762085,
+                    "text": "Machine learning for computer vision and natural language processing accelerates the advancement ofartiﬁcial intelligence. Since vision and natural language are the major modalities of human interaction,understanding and reasoning of vision and natural language information become a key challenge. Forinstance, visual question answering involves a vision-language cross-grounding problem. A machineis expected to answer given questions like \"who is wearing glasses?\", \"is the umbrella upside down?\"or \"how many children are in the bed?\" exploiting visually-grounded information.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        108.67506408691406,
+                        416.0452880859375,
+                        190.77906799316406,
+                        429.922119140625
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9984536170959473,
+                    "text": "1Introduction",
+                    "type": "Title"
+                },
+                {
+                    "bbox": [
+                        108.60169982910156,
+                        653.686767578125,
+                        505.7768249511719,
+                        697.999267578125
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9978315234184265,
+                    "text": "From this background, we propose bilinear attention networks (BAN) to use a bilinear attentiondistribution, on top of low-rank bilinear pooling [15]. Notice that the BAN exploits bilinear inter-actions between two groups of input channels, while low-rank bilinear pooling extracts the jointrepresentations for each pair of channels. Furthermore, we propose a variant of multimodal residual",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        284.60870361328125,
+                        219.1930389404297,
+                        328.2192077636719,
+                        232.69097900390625
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9923810362815857,
+                    "text": "Abstract",
+                    "type": "Title"
+                },
+                {
+                    "bbox": [
+                        188.47845458984375,
+                        156.62399291992188,
+                        420.375,
+                        168.4193115234375
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.97165447473526,
+                    "text": "Jin-Hwa Kim1SK T-Brain,∗, Jaehyun Jun2, Byoung-Tak Zhang2,3 2Seoul National University, 3Surromind Robotics",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        200.0935821533203,
+                        96.99374389648438,
+                        411.2452087402344,
+                        117.37590026855469
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9488843083381653,
+                    "text": "Bilinear Attention Networks",
+                    "type": "Title"
+                },
+                {
+                    "bbox": [
+                        176.02890014648438,
+                        167.57403564453125,
+                        435.51910400390625,
+                        190.8272247314453
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9481878876686096,
+                    "text": "Jin-Hwa Kim∗j n h w k i m @ s k t b r a i n . c o m ,1SK T-Brain,, Jaehyun Jun, Byoung-Tak Zhang 2Seoul National University, 3Surromind Robotics{ j h j u n , b t z h a n g } @ b i . s n u . a c . k r",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        117.14204406738281,
+                        704.7452392578125,
+                        325.8598937988281,
+                        714.818359375
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.8678746223449707,
+                    "text": "∗This work was done while at Seoul National University.",
+                    "type": "Text"
+                }
+            ],
+            "height": 792,
+            "num_page": 1,
+            "width": 612
+        },
+        {
+            "detected": [
+                {
+                    "bbox": [
+                        142.00279235839844,
+                        73.455810546875,
+                        476.477783203125,
+                        172.63197326660156
+                    ],
+                    "bbox_caption": [
+                        108.20904541015625,
+                        184.78292846679688,
+                        505.7303466796875,
+                        218.05422973632812
+                    ],
+                    "caption": "Figure 1: Overview of two-glimpse BAN. Two multi-channel inputs, φ-object detection features andρ-length GRU hidden vectors, are used to get bilinear attention maps and joint representations to beused by a classiﬁer. For the deﬁnition of the BAN, see the text in Section 3.",
+                    "score": 0.9982946515083313,
+                    "text": "",
+                    "type": "Figure"
+                },
+                {
+                    "bbox": [
+                        108.0466537475586,
+                        236.17247009277344,
+                        506.2421875,
+                        290.0187072753906
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9983468055725098,
+                    "text": "networks (MRN) to efﬁciently utilize the multiple bilinear attention maps of the BAN, unlike theprevious works [6, 15] where multiple attention maps are used by concatenating the attended features.Since the proposed residual learning method for BAN exploits residual summations instead of con-catenation, which leads to parameter-efﬁciently and performance-effectively learn up to eight-glimpseBAN. For the overview of two-glimpse BAN, please refer to Figure 1.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        109.11946868896484,
+                        506.3187561035156,
+                        505.154541015625,
+                        561.8366088867188
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9980067610740662,
+                    "text": "Low-rank bilinear model. The previous works [35, 22] proposed a low-rank bilinear model toreduce the rank of bilinear weight matrix Wi to give regularity. For this, Wi is replaced with themultiplication of two smaller matrices UiVTi , where Ui ∈ RN×d and Vi ∈ RM×d. As a result,this replacement makes the rank of Wi to be at most d ≤ min(N, M). For the scalar output fi (biasterms are omitted without loss of generality):",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        108.20904541015625,
+                        184.78292846679688,
+                        505.7303466796875,
+                        218.05422973632812
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9965969920158386,
+                    "text": "Figure 1: Overview of two-glimpse BAN. Two multi-channel inputs, φ-object detection features andρ-length GRU hidden vectors, are used to get bilinear attention maps and joint representations to beused by a classiﬁer. For the deﬁnition of the BAN, see the text in Section 3.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        107.08515167236328,
+                        468.32989501953125,
+                        505.2171630859375,
+                        501.3125915527344
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9962732791900635,
+                    "text": "We ﬁrst review the low-rank bilinear pooling and its application to attention networks [15], whichuses single-channel input (question vector) to combine the other multi-channel input (image features)as single-channel intermediate representation (attended feature).",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        109.94213104248047,
+                        444.09375,
+                        260.5015563964844,
+                        457.76434326171875
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9824159145355225,
+                    "text": "2Low-rank bilinear pooling",
+                    "type": "Title"
+                },
+                {
+                    "bbox": [
+                        118.00572967529297,
+                        310.7269287109375,
+                        506.8155822753906,
+                        426.0321044921875
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9729841351509094,
+                    "text": "• We propose the bilinear attention networks (BAN) to learn and use bilinear attention distributions,on top of low-rank bilinear pooling technique.• We propose a variant of multimodal residual networks (MRN) to efﬁciently utilize the multiplebilinear attention maps generated by our model. Unlike previous works, our method successfullyutilizes up to 8 attention maps.• Finally, we validate our proposed method on a large and highly-competitive dataset, VQA2.0 [8]. Our model achieves a new state-of-the-art maintaining simplicity of model structure.Moreover, we evaluate the visual grounding of bilinear attention map on Flickr30k Entities [23]outperforming previous methods, along with 25.37% improvement of inference speed takingadvantage of the processing of multi-channel inputs.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        108.50241088867188,
+                        660.18017578125,
+                        507.4521789550781,
+                        693.1467895507812
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9700959920883179,
+                    "text": "Unitary attention networks. ∈ Attention provides an efﬁcient mechanism to reduce input channelby selectively utilizing given information. Assuming that a multi-channel input Y consisting ofφ = |{yi}| column vectors, we want to get single channel ˆy from Y using the weights {αi}:�",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        105.28207397460938,
+                        631.2548828125,
+                        507.10498046875,
+                        654.8260498046875
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9580501914024353,
+                    "text": "where ◦ P ∈ Rd×c, U ∈ RN×d, and V ∈ RM×d. It allows U and V to be two-dimensional tensorsby introducing P for a vector output f ∈ Rc, signiﬁcantly reducing the number of parameters.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        108.28569030761719,
+                        296.1953125,
+                        218.31039428710938,
+                        306.6479797363281
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9258169531822205,
+                    "text": "Our main contributions are:",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        107.56378936767578,
+                        583.6973266601562,
+                        497.5826110839844,
+                        594.6321411132812
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.8661705255508423,
+                    "text": " ≈ ◦where 1  ∈ Rdis a vector of ones and ◦ denotes Hadamard product (element-wise multiplication).",
+                    "type": "Text"
+                }
+            ],
+            "height": 792,
+            "num_page": 2,
+            "width": 612
+        },
+        {
+            "detected": [
+                {
+                    "bbox": [
+                        109.08041381835938,
+                        679.387451171875,
+                        506.2886047363281,
+                        723.2257690429688
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9981006979942322,
+                    "text": "Time complexity. When we assume that the number of input channels is smaller than featuresizes, M ≥ N ≥ K ≫ φ ≥ ρ, the time complexity of the BAN is the same with the case of onemulti-channel input as O(KMφ) for single glimpse model. Since the BAN consists of matrix chainmultiplication and exploits the property of low-rank factorization in the low-rank bilinear pooling.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        108.05101776123047,
+                        640.1752319335938,
+                        504.706787109375,
+                        673.09375
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9966788291931152,
+                    "text": "0 e.g., two-layer MLP, wesum over the channel dimension of the last output f (if) and 1 Rρ. Here, the size of f, whereG ·where G is the same with the size ofsuccessive attention maps are processed. To get the logits for a classiﬁer, N = K ∈ A = X f X asi is the number of glimpses.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        107.86885070800781,
+                        73.6248550415039,
+                        502.9591979980469,
+                        96.43851470947266
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9949851036071777,
+                    "text": "where α represents an attention distribution to selectively combine φ input channels. Using thelow-rank bilinear pooling, the α is deﬁned by the output of softmax function as:� ���",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        109.80259704589844,
+                        180.19705200195312,
+                        266.0135498046875,
+                        194.2705535888672
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.989280641078949,
+                    "text": "3Bilinear attention networks",
+                    "type": "Title"
+                },
+                {
+                    "bbox": [
+                        108.25959014892578,
+                        205.2803192138672,
+                        505.5054931640625,
+                        240.31414794921875
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9851697087287903,
+                    "text": "We generalize a bilinear model for two multi-channel inputs, X ∈ RN×ρ and Y ∈ RM×φ, whereρ = |{xi}| and φ = |{yj}|, the numbers of two input channels, respectively. To reduce both inputchannel simultaneously, we introduce bilinear attention map A ∈ Rρ×φ as follows: U V",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        107.69667053222656,
+                        450.21356201171875,
+                        505.9379577636719,
+                        472.4600830078125
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9623103141784668,
+                    "text": "Bilinear attention map. Now, we want to get the attention map similarly to Equation 4. UsingHadamard product and matrix-matrix multiplication, the attention map A is deﬁned as:����",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        108.45943450927734,
+                        118.84402465820312,
+                        504.6626892089844,
+                        166.55416870117188
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9582228660583496,
+                    "text": "�concatenation of attended outputs. Finally, two single channel inputs ◦where x and ˆy can be used to get the ��G > 1 α, multiple glimpses ( ∈ RG×φ, P ∈ Rda.k.a.×G, U attention heads) are used [ ∈ RN � ·��×d, x ∈ RN, 1 ∈ Rφ, V ∈ RM×d, and Y ∈ RM×φ. If13, 6, 15], then ˆy =Gg=1i αg,iyi, thejoint representation using the other low-rank bilinear pooling for a classiﬁer.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        109.57527160644531,
+                        257.92083740234375,
+                        506.5080261230469,
+                        300.0888671875
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9578920006752014,
+                    "text": " kNotice that Equation 5 is a bilinear model for the two groups of input channels where U′ ∈ RN×K, V′ ∈ in the middle A RM×K, (XT U′) RAwhere (YT ′ Rφ, and  denotes theelement of intermediate representation. The subscript k k-th for the matrices indicates the index of column.V) ∈ f′k ∈ρ,kis a bilinear weight matrix. Interestingly, Equation 5 can be rewritten as:",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        106.3677749633789,
+                        334.1809387207031,
+                        504.81707763671875,
+                        429.7802429199219
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.8029083609580994,
+                    "text": "� P ∈ RK×C. For the convenience, we deﬁne thebilinear attention networks as a function of two multi-channel inputs parameterized by a bilinear A denotes an element in the=1whereinputandchannels, the 1-rank bilinear representation of two feature vectors is modeled inof Equation 6 (eventually at mostrepresentation is f = PT K -th row and thef-rank bilinear pooling for ′ where f-th column of ∈ RC and f ′ ∈ R. Notice that, for each pair ofi,j i j A andK). Then, the bilinear joint matrices, respectively, Y j, respectively, Xk′ and the-th channel (channel) ofk-th column of�� i denotes the ki=1j X and denotes the U′ and V-th channel (column) of inputi Yji=1�j=1 U′ V′ XTi (U′kV′Tk )Yjattention map as follows:",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        111.7873764038086,
+                        495.17138671875,
+                        505.2543029785156,
+                        520.4110717773438
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.7972291707992554,
+                    "text": " ∈ Rρ×φ. The softmax A i,j of the softmax is the output of low-rank bilinear pooling as: �  ◦wherewisely. Notice that each logit 1 ∈ Rρ ·, p RK′, and remind that A ∈��A�� function is applied element-�",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        108.17411804199219,
+                        590.51806640625,
+                        506.7139587402344,
+                        624.146728515625
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.7762307524681091,
+                    "text": "Residual learning of attention. Inspired by multimodal residual networks (MRN) from Kim et al.[14], we propose a variant of MRN to integrate the joint representations from the multiple bilinearattention maps. The i + 1-th output is deﬁned as:",
+                    "type": "Text"
+                }
+            ],
+            "height": 792,
+            "num_page": 3,
+            "width": 612
+        },
+        {
+            "detected": [
+                {
+                    "bbox": [
+                        108.87940216064453,
+                        432.59576416015625,
+                        504.9879455566406,
+                        552.4752807617188
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9993284940719604,
+                    "text": "Flickr30k Entities. For the evaluation of visual grounding by the bilinear attention maps, we useway, visual grounding of textual information is quantitatively measured. Following the evaluationThe upper bound of performance depends on the performance of object detection if the detectorFlickr30k Entities [23] consisting of 31,783 images [38] and 244,035 annotations that multipleentities (phrases) in a sentence for an image are mapped to the boxes on the image to indicate thecorrespondences between them. The task is to localize a corresponding box for each entity. In thismetric [23], if a predicted box has the intersection over union (IoU) of overlapping area with oneof the ground-truth boxes which are greater than or equal to 0.5, the prediction for a given entity iscorrect. This metric is called Recall@1. If K predictions are permitted to ﬁnd at least one correction,it is called Recall@K. We report Recall@1, 5, and 10 to compare state-of-the-arts (R@K in Table 4).proposes candidate boxes for the prediction.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        107.38953399658203,
+                        586.0256958007812,
+                        504.64501953125,
+                        662.0942993164062
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9989355206489563,
+                    "text": "Question embedding. For VQA, we get a question embeddingwith zero vectors. For Flickr30k Entities, we use a full length of sentences (82 is maximum) to get all XT ∈ R14×N using GloVe wordembeddings [21] and the outputs of Gated Recurrent Unit (GRU) [5] for every time-steps up to theﬁrst 14 tokens following the previous work [29]. The questions shorter than 14 words are end-paddedentities. We mark the token positions which are at the end of each annotated phrase. Then, we selecta subset of the output channels of GRU using these positions, which makes the number of channels isthe number of entities in a sentence. The word embeddings and GRU are ﬁne-tuned in training.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        109.08262634277344,
+                        338.94610595703125,
+                        503.0088195800781,
+                        427.3678283691406
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9984851479530334,
+                    "text": "Visual Question Answering (VQA). We evaluate on the VQA 2.0 dataset [1, 8], which is improvedfrom the previous version to emphasize visual understanding by reducing the answer bias in thedataset. This improvement pushes the model to have more effective joint representation of questionand image, which ﬁts the motivation of our bilinear attention approach. The VQA evaluation metricconsiders inter-human variability deﬁned as Accuracy(ans) = min(#humans that said ans/3, 1)Note that reporting accuracies are averaged over all ten choose nine sets of ground-truths. The testset is split into test-dev, test-standard, test-challenge, and test-reserve. The annotations for the test setare unavailable except the remote evaluation servers.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        108.60572052001953,
+                        168.33950805664062,
+                        505.009765625,
+                        278.249267578125
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9983629584312439,
+                    "text": "Co-attention networks. Xu and Saenkovariants of co-attention networks [ [36] proposed the spatial memory network model estimatingthe correlation among every image patches and tokens in a sentence. The estimated correlation Cis deﬁned as (UX)T Y in our notation. Unlike our method, they get an attention distributionα = softmax�maxi=1,...,ρ(Ci)�∈ Rρ where the logits to softmax is the maximum values in eachrow vector of C. The attention distribution for the other input can be calculated similarly. There are18, 20], especially, Lu et al. [18] sequentially get two attentiondistributions conditioning on the other modality. Recently, Yu et al. [39] reduce the co-attentionmethod into two steps, self-attention for a question embedding and the question-conditioned attentionfor a visual embedding. However, these co-attention approaches use separate attention distributionsfor each modality, neglecting the interaction between the modalities what we consider and model.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        107.50923156738281,
+                        669.1732177734375,
+                        505.43994140625,
+                        723.4235229492188
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9974094033241272,
+                    "text": "Image features. We use the image features extracted from bottom-up attention [which is ﬁxed while training. To deal with variable-channel inputs, we mask the padding logits with2]. These features arethe output of Faster R-CNN [25], pre-trained using Visual Genome [17]. We set a threshold for objectdetection to get φ = 10 to 100 objects per image. The features are represented as YT ∈ Rφ×2,048,minus inﬁnite to get zero probability from softmax avoiding underﬂow.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        107.87303161621094,
+                        96.7750244140625,
+                        503.7948913574219,
+                        162.4418487548828
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9973834156990051,
+                    "text": "Multimodal factorized bilinear pooling. Yu et al.where the performance is not signiﬁcantly improved from that of [39] extends low-rank bilinear pooling [15]using the rank > 1. They remove a projection matrix P, instead, d in Equation 2 is replaced withmuch smaller k while U and V are three-dimensional tensors. However, this generalization wasnot effective for BAN, at least in our experimental setting. Please see BAN-1+MFB in Figure 2b BAN-1. Furthermore, the peak GPUmemory consumption is larger due to its model structure which hinders to use multiple-glimpse BAN.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        108.01912689208984,
+                        564.9666748046875,
+                        190.37216186523438,
+                        578.3379516601562
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9947804808616638,
+                    "text": "5.2Preprocessing",
+                    "type": "Title"
+                },
+                {
+                    "bbox": [
+                        108.16109466552734,
+                        294.1753845214844,
+                        191.41091918945312,
+                        308.28912353515625
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9902250170707703,
+                    "text": "5Experiments",
+                    "type": "Title"
+                },
+                {
+                    "bbox": [
+                        107.88957214355469,
+                        71.41690063476562,
+                        199.52239990234375,
+                        84.92452239990234
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.985025942325592,
+                    "text": "4Related works",
+                    "type": "Title"
+                },
+                {
+                    "bbox": [
+                        107.6711196899414,
+                        319.27508544921875,
+                        166.6851043701172,
+                        330.72509765625
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9682708978652954,
+                    "text": "5.1Datasets",
+                    "type": "Title"
+                }
+            ],
+            "height": 792,
+            "num_page": 4,
+            "width": 612
+        },
+        {
+            "detected": [
+                {
+                    "bbox": [
+                        108.58477783203125,
+                        635.0201416015625,
+                        503.6375427246094,
+                        722.4457397460938
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9993495345115662,
+                    "text": "Comparison with other attention methods. Unitary attentionvector using a self-attention mechanism, then unitary visual attention is applied. Table 2 conﬁrms that has a similar architecture with Kimet al. [15] where a question embedding vector is used to calculate the attentional weights for multipleimage features of an image. Co-attention has the same mechanism of Yu et al. [39], similar to Lu et al.[18], Xu and Saenko [36], where multiple question embeddings are combined as single embeddingbilinear attention is signiﬁcantly better than any other attention methods. The co-attention is slightlybetter than simple unitary attention. In Figure 2a, co-attention suffers overﬁtting more severely(green) than any other methods, while bilinear attention (blue) is more regularized compared with the",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        109.65325164794922,
+                        476.7286071777344,
+                        505.1286315917969,
+                        630.531005859375
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9991944432258606,
+                    "text": "Comparison with state-of-the-arts. The ﬁrst row in Table 1 shows 2017 VQA Challenge winnerAs shown in Table 3, BAN outperforms the latest model [word embeddings and the semantically-closed mixture of these embeddings (see Appendix A.1).architecture [2, 29]. BAN signiﬁcantly outperforms this baseline and successfully utilize up to eightbilinear attention maps to improve its performance taking advantage of residual learning of attention.39] which uses the same bottom-up attentionfeature [2] by a substantial margin. BAN-Glove uses the concatenation of 300-dimensional GloveNotice that similar approaches can be found in the competitive models [6, 39] in Table 3 with adifferent initialization strategy for the same 600-dimensional word embedding. BAN-Glove-Counteruses both the previous 600-dimensional word embeddings and counting module [41], which exploitsspatial information of detected object boxes from the feature extractor [2]. The learned representationc ∈ Rφ+1 for the counting mechanism is linearly projected and added to joint representation afterapplying ReLU (see Equation 15 in Appendix A.2). In Table 5 (Appendix), we compare with theentries in the leaderboard of both VQA Challenge 2017 and 2018 achieving the 1st place at the timeof submission (our entry is not shown in the leaderboad since challenge entries are not visible).",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        106.44771575927734,
+                        258.28887939453125,
+                        504.5780944824219,
+                        357.1771545410156
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9991881251335144,
+                    "text": "Hyperparameters. The size of image features and question embeddings are M = 2, 048 andN = 1, 024, respectively. The size of joint representation C is the same with the rank K in low-rank bilinear pooling, C = K = 1, 024, but K′ = K × 3 is used in the bilinear attention mapsto increase a representational capacity for residual learning of attention. Every linear mapping isregularized by Weight Normalization [27] and Dropout [28] (p = .2, except for the classiﬁer with.5). Adamax optimizer [16], a variant of Adam based on inﬁnite norm, is used. The learning rate ismin(ie−3, 4e−3) where i is the number of epochs starting from 1, then after 10 epochs, the learningrate is decayed by 1/4 for every 2 epochs up to 13 epochs (i.e. 1e−3 for 11-th and 2.5e−4 for 13-thepoch). We clip the 2-norm of vectorized gradients to .25. The batch size is 512.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        108.66968536376953,
+                        362.14862060546875,
+                        504.8851318359375,
+                        417.52642822265625
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9987874627113342,
+                    "text": "Regularization. For the test split of VQA, both train and validation splits are used for training. WeAccordingly, we adjust the model capacity by increasing all ofaugment a subset of Visual Genome [17] dataset following the procedure of the previous works [29]. N, C, and K to 1,280. And, G = 8glimpses are used. For Flickr30k Entities, we use the same test split of the previous methods [23],without additional hyperparameter tuning from VQA experiments.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        108.75286865234375,
+                        171.01651000976562,
+                        505.8428039550781,
+                        226.12701416015625
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9978563189506531,
+                    "text": ". The activation function is�Classiﬁer.representationminimum occurrence of the answer in unique questions as nine times in the dataset, which is 3,129.Binary cross entropy is used for the loss function following the previous work [ For VQA, we use a two-layer multi-layer perceptron as a classiﬁer for the ﬁnal joint f ReLU. The number of outputs is determined by theG�29]. For Flickr30kEntities, we take the output of bilinear attention map, and binary cross entropy is used for this output.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        109.46826934814453,
+                        238.55418395996094,
+                        287.46710205078125,
+                        249.9966583251953
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9909953474998474,
+                    "text": "5.4Hyperparameters and regularization",
+                    "type": "Title"
+                },
+                {
+                    "bbox": [
+                        110.01472473144531,
+                        431.47796630859375,
+                        270.6558532714844,
+                        446.90972900390625
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9808914065361023,
+                    "text": "6VQA results and discussions",
+                    "type": "Title"
+                },
+                {
+                    "bbox": [
+                        107.78460693359375,
+                        456.7103576660156,
+                        214.6456298828125,
+                        468.5577697753906
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9683687090873718,
+                    "text": "6.1Quantitative results",
+                    "type": "Title"
+                },
+                {
+                    "bbox": [
+                        107.34962463378906,
+                        93.63871765136719,
+                        359.6905212402344,
+                        104.5893325805664
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.8455327153205872,
+                    "text": "Nonlinearity. We use ReLU [19] to give nonlinearity to BAN:",
+                    "type": "Text"
+                }
+            ],
+            "height": 792,
+            "num_page": 5,
+            "width": 612
+        },
+        {
+            "detected": [
+                {
+                    "bbox": [
+                        107.6629867553711,
+                        127.13392639160156,
+                        504.347900390625,
+                        352.8724365234375
+                    ],
+                    "bbox_caption": [
+                        293.66717529296875,
+                        70.2457275390625,
+                        503.0705871582031,
+                        125.16976165771484
+                    ],
+                    "caption": "Table 2: Validation scores on VQA 2.0 dataset forAtt_3 nParams70350123456.0Att_165Att_25.0678The number of used glimpses1,280, while 1,024 for the BAN.attention and integration mechanisms. Theindicates the number of parameters. Note that thehidden sizes of unitary attention and co-attention are(c)Att_4",
+                    "score": 0.9927939176559448,
+                    "text": "",
+                    "type": "Table"
+                },
+                {
+                    "bbox": [
+                        108.09978485107422,
+                        515.268310546875,
+                        504.5397033691406,
+                        570.5755004882812
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9991915822029114,
+                    "text": "Comparison with other approaches. In the second section of Table 2, the residual learning ofattention signiﬁcantly outperforms the other methods, sum, i.e., fG = �i BANi(X, Y; Ai), andconcatenation (concat), i.e., fG = ∥iBANi(X, Y; Ai). Whereas, the difference between sum andconcat is not signiﬁcantly different. Notice that the number of parameters of concat is larger than theothers, since the input size of the classiﬁer is increased.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        108.58660125732422,
+                        359.9297180175781,
+                        504.1739196777344,
+                        425.7155456542969
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9990643858909607,
+                    "text": "Figure 2: (a) learning curves. Bilinear attention (bi-att) is more robust to overﬁtting than unitaryattention (uni-att) and co-attention (co-att). (b) validation scores for the number of parameters. Theerror bar indicates the standard deviation among three random initialized models, although it is toosmall to be noticed for over-15M parameters. (c) ablation study for the ﬁrst-N-glimpses (x-axis) usedin evaluation. (d) the information entropy (y-axis) for each attention map in four-glimpse BAN. Theentropy of multiple attention maps is converged to certain levels.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        108.93038940429688,
+                        657.6602172851562,
+                        504.4288635253906,
+                        723.2509765625
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9985582232475281,
+                    "text": "Entropy of attention. We analyze the information entropy of attention distributions in a four-glimpseBAN. As shown in Figure 2d, the mean entropy of each attention for validation split is convergedto a different level of values. This result is repeatably observed in the other number of glimpsemodels. Our speculation is the multi-attention maps do not equally contribute similarly to votingby committees, but the residual learning by the multi-step attention. We argue that this is a novelobservation where the residual learning [9] is used for stacked attention networks.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        109.01982879638672,
+                        575.91015625,
+                        505.056640625,
+                        652.0006713867188
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9977989792823792,
+                    "text": "Ablation study. An interesting property of residual learning is robustness toward arbitrary abla-tions [31]. To see the relative contributions, we observe the learning curve of validation scoreswhen incremental ablation is performed. First, we train {1,2,4,8,12}-glimpse models using trainingsplit. Then, we evaluate the model on validation split using the ﬁrst�1 N attention maps. Hence, theintermediate representation fN is directly fed into the classiﬁer instead of fG. As shown in Figure 2c,the accuracy gain of the ﬁrst glimpse is the highest, then the gain is smoothly decreased as the numberof used glimpses is increased.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        293.66717529296875,
+                        70.2457275390625,
+                        503.0705871582031,
+                        125.16976165771484
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9973132014274597,
+                    "text": "Table 2: Validation scores on VQA 2.0 dataset forAtt_3 nParams70350123456.0Att_165Att_25.0678The number of used glimpses1,280, while 1,024 for the BAN.attention and integration mechanisms. Theindicates the number of parameters. Note that thehidden sizes of unitary attention and co-attention are(c)Att_4",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        108.4239730834961,
+                        446.8377990722656,
+                        503.0242004394531,
+                        470.3720703125
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9967369437217712,
+                    "text": "others. In Figure 2b, BAN is the most parameter-efﬁcient among various attention methods. Noticethat four-glimpse BAN more parsimoniously utilizes its parameters than one-glimpse BAN does.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        110.28973388671875,
+                        75.88040161132812,
+                        280.71820068359375,
+                        119.26609802246094
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9902883768081665,
+                    "text": "Table 1: Validation scores on VQA 2.0dataset for the number of glimpses of the(a)BAN. The standard deviations are reportedafter ±0 using three random initialization.2468Epoch101214161885(b)",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        107.77161407470703,
+                        491.6729736328125,
+                        256.51348876953125,
+                        503.5802001953125
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9716682434082031,
+                    "text": "6.2Residual learning of attention",
+                    "type": "Title"
+                }
+            ],
+            "height": 792,
+            "num_page": 6,
+            "width": 612
+        },
+        {
+            "detected": [
+                {
+                    "bbox": [
+                        106.2205581665039,
+                        71.05064392089844,
+                        503.9730224609375,
+                        154.35955810546875
+                    ],
+                    "bbox_caption": [
+                        108.52075958251953,
+                        165.30824279785156,
+                        504.4580993652344,
+                        219.7838592529297
+                    ],
+                    "caption": "Figure 3: Visualization of the bilinear attention maps for two-glimpse BAN. The left and rightgroups indicate the ﬁrst and second bilinear attention maps (right in each group, log-scaled) and thevisualized image (left in each group). The most salient six boxes (1-6 numbered in the images andx-axis of the grids) in the ﬁrst attention map determined by marginalization are visualized on bothimages to compare. The model gives the correct answer, brown.",
+                    "score": 0.9964867830276489,
+                    "text": "",
+                    "type": "Figure"
+                },
+                {
+                    "bbox": [
+                        139.99899291992188,
+                        234.87301635742188,
+                        503.13812255859375,
+                        355.653076171875
+                    ],
+                    "bbox_caption": [
+                        107.22522735595703,
+                        366.27069091796875,
+                        503.08807373046875,
+                        410.70343017578125
+                    ],
+                    "caption": "Figure 4: Visualization examples from the test split of Flickr30k Entities are shown. Solid-linedboxes indicate predicted phrase localizations and dashed-line boxes indicate the ground-truth. If thereare multiple ground-truth boxes, the closest box is shown to investigate. Each color of a phrase ismatched with the corresponding color of predicted and ground-truth boxes. Best view in color.",
+                    "score": 0.9427889585494995,
+                    "text": "",
+                    "type": "Figure"
+                },
+                {
+                    "bbox": [
+                        114.72509002685547,
+                        233.65773010253906,
+                        286.8580322265625,
+                        355.20123291015625
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9389424920082092,
+                    "text": "",
+                    "type": "Figure"
+                },
+                {
+                    "bbox": [
+                        108.94985961914062,
+                        456.5641174316406,
+                        503.69879150390625,
+                        500.9126281738281
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9989646673202515,
+                    "text": "The visualization for a two-glimpse BAN is shown in Figure 3. The question is “what color are thepants of the guy skateboarding”. The question and content words, what, pants, guy, and skateboardingand skateboarder’s pants in the image are attended. Notice that the box 2 (orange) captured the sittingman’s pants in the bottom.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        107.22522735595703,
+                        366.27069091796875,
+                        503.08807373046875,
+                        410.70343017578125
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9983804225921631,
+                    "text": "Figure 4: Visualization examples from the test split of Flickr30k Entities are shown. Solid-linedboxes indicate predicted phrase localizations and dashed-line boxes indicate the ground-truth. If thereare multiple ground-truth boxes, the closest box is shown to investigate. Each color of a phrase ismatched with the corresponding color of predicted and ground-truth boxes. Best view in color.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        109.56145477294922,
+                        542.8124389648438,
+                        504.4082336425781,
+                        586.2976684570312
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.998247504234314,
+                    "text": "To examine the capability of bilinear attention map to capture vision-language interactions, weconduct experiments on Flickr30k Entities [23]. Our experiments show that BAN outperforms theprevious state-of-the-art on the phrase localization task with a large margin of 4.48% at a high speedof inference.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        107.54130554199219,
+                        591.3695068359375,
+                        503.7439880371094,
+                        668.29736328125
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9981549382209778,
+                    "text": "Performance. In Table 4, we compare with other previous approaches. Our bilinear attention mapto predict the boxes for the phrase entities in a sentence achieves new state-of-the-art with 69.69%for Recall@1. This result is remarkable considering that BAN does not use any additional featureslike box size, color, segmentation, or pose-estimation [23, 37]. Note that both Query-AdaptiveRCNN [10] and our off-the-shelf object detector [2] are based on Faster RCNN [25] and pre-trainedon Visual Genome [17]. Compared to Query-Adaptive RCNN, the parameters of our object detectorare ﬁxed and only used to extract 10-100 visual features and the corresponding box proposals.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        108.52075958251953,
+                        165.30824279785156,
+                        504.4580993652344,
+                        219.7838592529297
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9972570538520813,
+                    "text": "Figure 3: Visualization of the bilinear attention maps for two-glimpse BAN. The left and rightgroups indicate the ﬁrst and second bilinear attention maps (right in each group, log-scaled) and thevisualized image (left in each group). The most salient six boxes (1-6 numbered in the images andx-axis of the grids) in the ﬁrst attention map determined by marginalization are visualized on bothimages to compare. The model gives the correct answer, brown.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        107.62525939941406,
+                        436.06829833984375,
+                        214.16220092773438,
+                        447.5331115722656
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9967179894447327,
+                    "text": "6.3Qualitative analysis",
+                    "type": "Title"
+                },
+                {
+                    "bbox": [
+                        105.78762817382812,
+                        673.8973999023438,
+                        505.8455810546875,
+                        695.3195190429688
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9875153303146362,
+                    "text": "Type. In Table 6 (included in Appendix), we report the results for each type of Flickr30k Entities.Notice that clothing and body parts are signiﬁcantly improved to 74.95% and 47.23%, respectively.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        107.57779693603516,
+                        701.9070434570312,
+                        503.91790771484375,
+                        723.4009399414062
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.979219377040863,
+                    "text": "Speed. The faster inference is achieved taking advantage of multi-channel inputs in our BAN. Unlikeprevious methods, BAN ables to infer multiple entities in a sentence which can be prepared as a",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        108.67047882080078,
+                        517.0885620117188,
+                        334.0975036621094,
+                        530.6615600585938
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9745586514472961,
+                    "text": "7Flickr30k entities results and discussions",
+                    "type": "Title"
+                }
+            ],
+            "height": 792,
+            "num_page": 7,
+            "width": 612
+        },
+        {
+            "detected": [
+                {
+                    "bbox": [
+                        111.46237182617188,
+                        330.9927062988281,
+                        511.9908142089844,
+                        478.8248291015625
+                    ],
+                    "bbox_caption": [
+                        108.40109252929688,
+                        70.389404296875,
+                        503.269775390625,
+                        114.57554626464844
+                    ],
+                    "caption": "Table 3: Test-dev and test-standard scores of single-model on VQA 2.0 dataset to compare state-of-the-arts, trained on training and validation splits, and Visual Genome for feature extraction or dataaugmentation. † This model can be found in h t t p s : / / g i t h u b . c o m / y u z c c c c / v q a - m f b , which isnot published in the paper.",
+                    "score": 0.9549014568328857,
+                    "text": "",
+                    "type": "Table"
+                },
+                {
+                    "bbox": [
+                        137.6793670654297,
+                        126.11734008789062,
+                        474.95684814453125,
+                        230.36476135253906
+                    ],
+                    "bbox_caption": [
+                        107.07777404785156,
+                        247.8490447998047,
+                        505.01416015625,
+                        313.8597412109375
+                    ],
+                    "caption": "Table 4: Test split results for Flickr30k Entities. We report the average performance of our threerandomly-initialized models (the standard deviation of R@1 is 0.17). Upper Bound of performanceasserted by object detector is shown. † box size and color information are used as additional features.‡ semantic segmentation, object detection, and pose-estimation is used as additional features. Noticethat the detectors of Hinami and Satoh [10] and ours [2] are based on Faster RCNN [25], pre-trainedusing Visual Genome dataset [17].",
+                    "score": 0.8714423775672913,
+                    "text": "",
+                    "type": "Table"
+                },
+                {
+                    "bbox": [
+                        107.14344787597656,
+                        547.6250610351562,
+                        504.37469482421875,
+                        591.8090209960938
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9993187189102173,
+                    "text": "Visualization. Figure 4 shows three examples from the test split of Flickr30k Entities. The entitieswhich has visual properties, for instance, a yellow tennis suit and white tennis shoes in Figure 4a, anda denim shirt in Figure 4b, are correct. However, relatively small object (e.g., a cigarette in Figure 4b)and the entity that requires semantic inference (e.g., a male conductor in Figure 4c) are incorrect.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        107.52542877197266,
+                        636.7691040039062,
+                        504.11322021484375,
+                        722.8436279296875
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9985367059707642,
+                    "text": "BAN gracefully extends unitary attention networks exploiting bilinear attention maps, where the jointrepresentations of multimodal multi-channel inputs are extracted using low-rank bilinear pooling.Although BAN considers every pair of multimodal input channels, the computational cost remains inthe same magnitude, since BAN consists of matrix chain multiplication for efﬁcient computation. Theproposed residual learning of attention efﬁciently uses up to eight bilinear attention maps, keepingthe size of intermediate features constant. We believe our BAN gives a new opportunity to learn thericher joint representation for multimodal multi-channel inputs, which appear in many real-worldproblems.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        108.40109252929688,
+                        70.389404296875,
+                        503.269775390625,
+                        114.57554626464844
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9983620047569275,
+                    "text": "Table 3: Test-dev and test-standard scores of single-model on VQA 2.0 dataset to compare state-of-the-arts, trained on training and validation splits, and Visual Genome for feature extraction or dataaugmentation. † This model can be found in h t t p s : / / g i t h u b . c o m / y u z c c c c / v q a - m f b , which isnot published in the paper.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        107.07777404785156,
+                        247.8490447998047,
+                        505.01416015625,
+                        313.8597412109375
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9980879426002502,
+                    "text": "Table 4: Test split results for Flickr30k Entities. We report the average performance of our threerandomly-initialized models (the standard deviation of R@1 is 0.17). Upper Bound of performanceasserted by object detector is shown. † box size and color information are used as additional features.‡ semantic segmentation, object detection, and pose-estimation is used as additional features. Noticethat the detectors of Hinami and Satoh [10] and ours [2] are based on Faster RCNN [25], pre-trainedusing Visual Genome dataset [17].",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        108.83642578125,
+                        499.2417907714844,
+                        503.3927307128906,
+                        542.3751220703125
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9966865181922913,
+                    "text": "multi-channel input. Therefore, the number of forwardings to infer is signiﬁcantly decreased. In ourexperiment, BAN takes 0.67 ms/entity whereas the setting that single entity as an example takes 0.84ms/entity, achieving 25.37% improvement. We emphasize that this property is a novel in our modelthat considers every interaction among vision-language multi-channel inputs.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        108.08139038085938,
+                        609.1636352539062,
+                        187.6816864013672,
+                        623.2931518554688
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.995246946811676,
+                    "text": "8Conclusions",
+                    "type": "Title"
+                }
+            ],
+            "height": 792,
+            "num_page": 8,
+            "width": 612
+        },
+        {
+            "detected": [
+                {
+                    "bbox": [
+                        108.06317901611328,
+                        91.83702850341797,
+                        504.8169860839844,
+                        157.97959899902344
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9982782602310181,
+                    "text": "We would like to thank Kyoung-Woon On, Bohyung Han, Hyeonwoo Noh, Sungeun Hong, JaesunPark, and Yongseok Choi for helpful comments and discussion. Jin-Hwa Kim was supported by 2017Google Ph.D. Fellowship in Machine Learning and Ph.D. Completion Scholarship from College ofHumanities, Seoul National University. This work was funded by the Korea government (IITP-2017-0-01772-VTT, IITP-R0126-16-1072-SW.StarLab, 2018-0-00622-RMI, KEIT-10060086-RISF). Thepart of computing resources used in this study was generously shared by Standigm Inc.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        108.75623321533203,
+                        73.57176208496094,
+                        185.9795379638672,
+                        85.06233978271484
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.994006872177124,
+                    "text": "Acknowledgments",
+                    "type": "Title"
+                },
+                {
+                    "bbox": [
+                        110.81830596923828,
+                        191.5831298828125,
+                        510.4075012207031,
+                        726.734619140625
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9600611329078674,
+                    "text": "[1] Aishwarya Agrawal, Jiasen Lu, Stanislaw Antol, Margaret Mitchell, C Lawrence Zitnick, Devi[14][10][11][12][13][3][7]Parikh, and Dhruv Batra. Vqa: Visual question answering. International Journal of ComputerVision, 123(1):4–31, 2017.[2] Peter Anderson, Xiaodong He, Chris Buehler, Damien Teney, Mark Johnson, Stephen Gould,and Lei Zhang. Bottom-Up and Top-Down Attention for Image Captioning and Visual QuestionAnswering. arXiv preprint arXiv:1707.07998, 2017. Pablo Arbeláez, Jordi Pont-Tuset, Jonathan T Barron, Ferran Marques, and Jitendra Malik.Multiscale combinatorial grouping.In IEEE conference on computer vision and patternrecognition, pages 328–335, 2014.[4] Hedi Ben-younes, Rémi Cadene, Matthieu Cord, and Nicolas Thome. MUTAN: MultimodalTucker Fusion for Visual Question Answering. In IEEE International Conference on ComputerVision, pages 2612–2620, 2017.[5] Kyunghyun Cho, Bart Van Merriënboer, Caglar Gulcehre, Dzmitry Bahdanau, Fethi Bougares,Holger Schwenk, and Yoshua Bengio. Learning Phrase Representations using RNN Encoder-Decoder for Statistical Machine Translation. In 2014 Conference on Empirical Methods inNatural Language Processing, pages 1724–1734, 2014.[6] Akira Fukui, Dong Huk Park, Daylen Yang, Anna Rohrbach, Trevor Darrell, and MarcusRohrbach. Multimodal Compact Bilinear Pooling for Visual Question Answering and VisualGrounding. arXiv preprint arXiv:1606.01847, 2016. Ross Girshick. Fast r-cnn. In IEEE International Conference on Computer Vision, pages1440–1448, 2015.[8] Yash Goyal, Tejas Khot, Douglas Summers-Stay, Dhruv Batra, and Devi Parikh. Making the Vin VQA Matter: Elevating the Role of Image Understanding in Visual Question Answering. InIEEE Conference on Computer Vision and Pattern Recognition, 2017.[9] Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun. Deep Residual Learning for ImageRecognition. In IEEE Conference on Computer Vision and Pattern Recognition, 2016. Ryota Hinami and Shin’ichi Satoh. Query-Adaptive R-CNN for Open-Vocabulary ObjectDetection and Retrieval. arXiv preprint arXiv:1711.09509, 2017. Ronghang Hu, Huazhe Xu, Marcus Rohrbach, Jiashi Feng, Kate Saenko, and Trevor Darrell.Natural language object retrieval. In IEEE Computer Vision and Pattern Recognition, pages4555–4564, 2016. Ilija Ilievski and Jiashi Feng. A Simple Loss Function for Improving the Convergence andAccuracy of Visual Question Answering Models. 2017. Max Jaderberg, Karen Simonyan, Andrew Zisserman, and Koray Kavukcuoglu. Spatial Trans-former Networks. In Advances in Neural Information Processing Systems 28, pages 2008–2016,2015. Jin-Hwa Kim, Sang-Woo Lee, Donghyun Kwak, Min-Oh Heo, Jeonghee Kim, Jung-Woo Ha,and Byoung-Tak Zhang. Multimodal Residual Learning for Visual QA. In Advances in NeuralInformation Processing Systems 29, pages 361–369, 2016.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        108.41572570800781,
+                        173.09593200683594,
+                        163.72314453125,
+                        187.05398559570312
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9501147866249084,
+                    "text": "References",
+                    "type": "Title"
+                }
+            ],
+            "height": 792,
+            "num_page": 9,
+            "width": 612
+        },
+        {
+            "detected": [],
+            "height": 792,
+            "num_page": 10,
+            "width": 612
+        },
+        {
+            "detected": [],
+            "height": 792,
+            "num_page": 11,
+            "width": 612
+        },
+        {
+            "detected": [
+                {
+                    "bbox": [
+                        106.17561340332031,
+                        208.78604125976562,
+                        504.209228515625,
+                        365.40533447265625
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.999830961227417,
+                    "text": "We augment a computed 300-dimensional word embedding to each 300-dimensional Glove wordrows to the previous word embeddings, which makes 600-dimensional word embeddings in total. Theinput size of GRU is increased to 600 to match with these word embeddings. These word embeddingsiTherefore,ﬁnally, we select  V rows from  W Wembedding. The computation is as follows: 1) we choose arbitrary two words w and wj from eachquestion that can be found in VQA and Visual Genome datasets or each caption in MS COCO dataset.2) we increase the value of Ai,j by one where A ∈ RV ′×V ′ is an association matrix initializedwith zeros. Notice that i and j can be the index out of vocabulary V and the size of vocabulary inthis computation is denoted by V ′. 3) to penalize highly frequent words, each row of A is dividedby the number of sentences (question or caption) which contain the corresponding word . 4) eachrow is normalized by the sum of all elements of each row. 5) we calculate W′ = A · W where ∈ RV ′×Eis a Glove word embedding matrix and E is the size of word embedding, i.e., 300.′ ∈ RV ′×Estands for the mixed word embeddings of semantically closed words. 6) W′corresponding to the vocabulary in our model and augment theseare ﬁne-tuned.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        109.14759826660156,
+                        370.9742736816406,
+                        505.16387939453125,
+                        426.8820495605469
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9991494417190552,
+                    "text": "As a result, this variant signiﬁcantly improves the performance to 66.03 (±0.12) compared with theperformance of 65.72 (± 0.11) which is done by augmenting the same 300-dimensional Glove wordembeddings (so the number of parameters is controlled). In this experiment, we use four-glimpseBAN and evaluate on validation split. The standard deviation is calculated by three random initializedmodels and the means are reported. The result on test-dev split can be found in Table 3 as BAN+Glove.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        106.8236312866211,
+                        529.7365112304688,
+                        505.2582702636719,
+                        584.4091186523438
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9979479908943176,
+                    "text": "where c ∈ Rφ+1 and ˜α ∈ Rφ is the logits of corresponding objects for sigmoid function insidethe counting module. We found that the ˜α deﬁned by maxj=1,...,φ(A·,j), i.e., the maximum valuesin each column vector of A in Equation 9, was better than that of summation. Since the countingmodule does not support variable-object inputs, we select 10-top objects for the input instead of φobjects based on the values of ˜α.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        108.06208801269531,
+                        459.5599670410156,
+                        507.316162109375,
+                        503.3082275390625
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9961299896240234,
+                    "text": "The counting module [41] is proposed to improve the performance related to counting tasks. Thismodule is a neural network component to get a dense representation from spatial information ofdetected objects, i.e., the left-top and right-bottom positions of the φ proposed objects (rectangles)denoted by S ∈ R4×φ. The interface of the counting module is deﬁned as:",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        108.3380126953125,
+                        668.2423095703125,
+                        504.22100830078125,
+                        722.9647216796875
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.995669960975647,
+                    "text": "As a result, this variant signiﬁcantly improves the counting performance from 54.92 (±0.30) to58.21 (±0.49), while overall performance is improved from 65.81 (±0.09) to 66.01 (±0.14) in acontrolled experiment using a vanilla four-glimpse BAN. The deﬁnition of a subset of countingquestions comes from the previous work [30]. The result on test-dev split can be found in Table 3 asBAN+Glove+Counter, notice that, which is applied by the previous embedding variant, too.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        107.95046997070312,
+                        626.9370727539062,
+                        504.74871826171875,
+                        662.9318237304688
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9928826093673706,
+                    "text": "A is the logit ofc( where(i)�where the function A. Note that a dropout layer before· )) A,ji)i = Counter(s, max gj=1 is the i-th linear embedding followed by ReLU activation function andi(·),...,φ(�ithis linear embedding severely hurts performance, so we did not use it.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        108.41873931884766,
+                        439.566650390625,
+                        254.60858154296875,
+                        450.9443054199219
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9912277460098267,
+                    "text": "A.2Integrating counting module",
+                    "type": "Title"
+                },
+                {
+                    "bbox": [
+                        107.85314178466797,
+                        163.61180114746094,
+                        212.92657470703125,
+                        177.35858154296875
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.896029531955719,
+                    "text": "AVariants of BAN",
+                    "type": "Title"
+                },
+                {
+                    "bbox": [
+                        161.571044921875,
+                        97.7156753540039,
+                        459.2625732421875,
+                        117.1150131225586
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.8836085200309753,
+                    "text": "Bilinear Attention Networks — Appendix",
+                    "type": "Title"
+                },
+                {
+                    "bbox": [
+                        107.68390655517578,
+                        188.57919311523438,
+                        277.30059814453125,
+                        199.95248413085938
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.7698003649711609,
+                    "text": "A.1Enhancing glove word embedding",
+                    "type": "Title"
+                }
+            ],
+            "height": 792,
+            "num_page": 12,
+            "width": 612
+        },
+        {
+            "detected": [
+                {
+                    "bbox": [
+                        107.5855484008789,
+                        617.7550048828125,
+                        503.45416259765625,
+                        709.0841674804688
+                    ],
+                    "bbox_caption": [
+                        107.0536117553711,
+                        284.822021484375,
+                        506.15087890625,
+                        317.51702880859375
+                    ],
+                    "caption": "Table 5: Test-standard scores of ensemble-model on VQA 2.0 dataset to compare state-of-the-arts.Excerpt from the VQA 2.0 Leaderboard at the time of writing. # denotes the number of models fortheir ensemble methods.",
+                    "score": 0.9876688122749329,
+                    "text": "",
+                    "type": "Table"
+                },
+                {
+                    "bbox": [
+                        153.83168029785156,
+                        326.07562255859375,
+                        458.0703430175781,
+                        573.4493408203125
+                    ],
+                    "bbox_caption": [
+                        166.6895751953125,
+                        593.9132080078125,
+                        441.25323486328125,
+                        605.5820922851562
+                    ],
+                    "caption": "Table 6: Recall@1 performance over types for Flickr30k Entities (%)",
+                    "score": 0.9837591648101807,
+                    "text": "",
+                    "type": "Table"
+                },
+                {
+                    "bbox": [
+                        107.29762268066406,
+                        93.55977630615234,
+                        504.94677734375,
+                        150.1325225830078
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9983837604522705,
+                    "text": "Yu et al. [39] extend low-rank bilinear pooling [15] with the rank k > 1 and two factorized three-dimensional matrices, which called as MFB. The implementation of MFB is effectively equivalent tolow-rank bilinear pooling with the rank d′ = d × k followed by sum pooling with the window sizeof k and the stride of k, deﬁned by SumPool( U˜T x ◦ V˜T y, k). Notice that a pooling matrix P inEquation 2 is not used. The variant of BAN inspired by MFB is deﬁned as:",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        107.0536117553711,
+                        284.822021484375,
+                        506.15087890625,
+                        317.51702880859375
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.998161256313324,
+                    "text": "Table 5: Test-standard scores of ensemble-model on VQA 2.0 dataset to compare state-of-the-arts.Excerpt from the VQA 2.0 Leaderboard at the time of writing. # denotes the number of models fortheir ensemble methods.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        166.6895751953125,
+                        593.9132080078125,
+                        441.25323486328125,
+                        605.5820922851562
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9961244463920593,
+                    "text": "Table 6: Recall@1 performance over types for Flickr30k Entities (%)",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        109.09740447998047,
+                        73.71661376953125,
+                        378.51953125,
+                        85.5770034790039
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9615094065666199,
+                    "text": "A.3Integrating multimodal factorized bilinear (MFB) pooling",
+                    "type": "Title"
+                },
+                {
+                    "bbox": [
+                        107.5678482055664,
+                        220.06129455566406,
+                        505.6455078125,
+                        254.26791381835938
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9598311185836792,
+                    "text": "However, this generalization was not effective for BAN. In Figure 2b, the performance of ∈1+MFB BAN- is not signiﬁcantly different from that of × BAN-1. Furthermore, the larger K′ increases thepeak consumption of GPU memory which hinders to use multiple-glimpses for the BAN.",
+                    "type": "Text"
+                },
+                {
+                    "bbox": [
+                        106.98663330078125,
+                        191.3472900390625,
+                        508.73077392578125,
+                        216.1943817138672
+                    ],
+                    "bbox_caption": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "caption": "",
+                    "score": 0.9581412672996521,
+                    "text": "where U˜ ∈ RN×K′, V˜ ∈ RM×K′, σ denotes ReLU activation function, and k = 5 following Yuet al. [39]. Notice that K′ = K × k and k′ is the index for the elements in z ∈ RK′ in our notation.",
+                    "type": "Text"
+                }
+            ],
+            "height": 792,
+            "num_page": 13,
+            "width": 612
+        }
+    ],
+    "status": 200,
+    "total": 13
+}

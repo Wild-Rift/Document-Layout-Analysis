@@ -1,0 +1,7 @@
+Flask
+opencv-python
+pycocotools
+pymupdf
+Pillow
+pandas
+streamlit 
