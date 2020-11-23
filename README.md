@@ -22,5 +22,5 @@ See [Colab Notebook](https://colab.research.google.com/drive/1WBzVAgLdldrX6Gs1lb
 
 1.  [Pham Van Tien](https://github.com/vietnamican)
 2.  [Nguyen Trung Duc](https://github.com/caoboiyb)
-3.  [Tran Tien Quan]()
+3.  [Tran Tien Quan](https://github.com/Lill98)
 4.  [Bui Xuan Thoai](https://github.com/ThanThoai)
