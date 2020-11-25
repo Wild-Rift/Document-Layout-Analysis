@@ -1,0 +1,1 @@
+./darknet detector train cfg/publaynet.data cfg/yolov4.cfg csdarknet53-omega.conv.105

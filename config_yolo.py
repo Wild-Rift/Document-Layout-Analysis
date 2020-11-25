@@ -15,3 +15,9 @@ def bootstrap(image_dir, label_dir, dst_dir, probability=0.2):
             dst_label_path = os.join(dst_dir, label_file)
             copyfile(image_path, dst_image_path)
             copyfile(label_path, dst_label_path)
+
+def get_dataset_for_yolo(image_dir, database_file):
+    with open(database_file, 'w') as dbfile:
+        for image_file in os.listdir(image_dir):
+            full_path = os.path.join(image_dir, image_file)
+            dbfile.write(full_path+'\n')
