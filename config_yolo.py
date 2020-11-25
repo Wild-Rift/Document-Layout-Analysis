@@ -2,6 +2,14 @@ import numpy as np
 import tensorflow as tf
 import os
 from shutil import copyfile
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-i', '--image-dir')
+parser.add_argument('-l', '--label-dir')
+parser.add_argument('-d', '--dst-dir')
+parser.add_argument('-p', '--probability', default=0.2, type=float)
+args = parser.parse_args()
 
 def bootstrap(image_dir, label_dir, dst_dir, probability=0.2):
     for image_file_name in os.listdir(image_dir):
@@ -21,3 +29,9 @@ def get_dataset_for_yolo(image_dir, database_file):
         for image_file in os.listdir(image_dir):
             full_path = os.path.join(image_dir, image_file)
             dbfile.write(full_path+'\n')
+           
+image_dir = args.image_dir
+label_dir = args.label_dir
+dst_dir = args.dst_dir
+probability = args.probability
+bootstrap(image_dir, label_dir, dst_dir
